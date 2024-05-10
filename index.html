@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon"
+        href="https://cdn.discordapp.com/avatars/874898422233178142/e8735d4fdd5d0a85d879a68f97629bd7.png?size=1024">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>| 4levy &gt;.&lt;</title>
+    <style>
+        .title {
+            font-size: 3em;
+            color: #ffdbfd;
+            position: relative;
+            animation: slideIn 1.5s ease-out;
+        }
+
+        .title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #f5dafd;
+            animation: stretch 1.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes stretch {
+            from {
+                transform: scaleX(0);
+            }
+
+            to {
+                transform: scaleX(1);
+            }
+        }
+
+        body {
+            font-family: 'JetBrains Mono', monospace;
+            margin: 0;
+            padding: 0;
+            background-color: #1e1e2e;
+            color: #e3e6f3;
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px;
+            padding: 20px;
+            text-align: left;
+        }
+
+        .title {
+            font-size: 2.6em;
+            font-weight: 600;
+        }
+
+        .highlight {
+            color: #cba6f7;
+        }
+
+        p {
+            font-size: 1.5em;
+            margin-top: 20px;
+        }
+
+        .blurple {
+            color: #8caaee;
+        }
+
+        .pastel {
+            color: #ef9f76;
+        }
+
+        a {
+            text-decoration: none;
+            color: #99d1db;
+        }
+
+        ::selection {
+            background-color: transparent;
+        }
+
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #1e1e2e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+            z-index: 9999;
+        }
+
+        .overlay.hidden {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .loading-text {
+            font-size: 2em;
+            color: #f3f3f3;
+            animation: fadeinout 3s linear infinite;
+            opacity: 0;
+        }
+
+        .aboutme {
+            margin: 10px; 
+            font-size:30px; 
+        }
+
+        @keyframes cursor {
+            50% {
+                border-color: transparent;
+            }
+        }
+
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 100%
+            }
+        }
+
+        @keyframes fadeinout {
+
+            0%,
+            100% {
+                opacity: 0;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        .down {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            color: #ffffff;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="overlay" id="overlay">
+        <div class="loading-text">Loading...</div>
+    </div>
+
+    <div class="container">
+        <div class="title">4<span class="highlight">levy</span></div>
+        <div class="aboutme" id="typedtext"></div>
+        <p id="timeDisplay">
+        <p id="birthday"></p>
+        <p id="user-status"></p>
+        <p id="user-status2"></p>
+        <p id="game-status"></p>
+        <p>My <a href="https://github.com/4levy">GitHub</a> na krubb.</p>
+        <p>Credit <a href="https://github.com/ntarya">NotArya</a></p>
+        <img src="https://moe-counter.glitch.me/get/@4levy?theme=gelbooru" alt="4levy">
+
+        <footer class="down">
+            <h6></h6>i &lt;3 milk
+            <span class="svelte-194k3n5" data-svelte-h="svelte-1qkh7q3"></span>
+            <hr>
+            </h6>
+        </footer>
+    </div>
+
+    <script>
+        function updateTime() {
+            var offset = 7;
+            var time = new Date(new Date().getTime() + offset * 3600 * 1000).toUTCString().replace(/GMT$/, "");
+            var time1 = time.split(" ");
+            var time2 = time1[4].split(":");
+            var time3 = time2[0] + ":" + time2[1] + ":" + time2[2];
+            document.getElementById("timeDisplay").innerHTML = "<i class='far fa-clock' style='color: #ef9f76'></i> My local time is <span class='pastel'>" + time3 + "</span> (Thailand, Pattay)";
+        }
+        setInterval(updateTime, 1000);
+        var countDownDate = new Date("07/04/2025").getTime();
+        var x = setInterval(function () {
+            var now = new Date().getTime();
+            var distance = countDownDate - now;
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+            var countdownString = `<span class="countdown" style="color: #f4b8e4"><i class="fas fa-birthday-cake"></i> ${days}d ${hours}h ${minutes}m ${seconds}s</span> until my birthday`;
+            document.getElementById("birthday").innerHTML = countdownString;
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("birthday").innerHTML = "It's my birthday! 🎉";
+            }
+        }, 1000);
+
+        class LanyardService {
+            constructor(discordId) {
+                this.webSocketUrl = 'wss://api.lanyard.rest/socket';
+                this.discordId = discordId;
+                this.socket = null;
+                this.listeners = [];
+            }
+
+            setupWebSocket() {
+                this.socket = new WebSocket(this.webSocketUrl);
+
+                this.socket.onopen = () => {
+                    this.sendInitialData();
+                    this.setupHeartbeat();
+                };
+
+                this.socket.onmessage = (event) => {
+                    const data = JSON.parse(event.data);
+                    if (data.t === 'INIT_STATE' || data.t === 'PRESENCE_UPDATE') {
+                        this.notifyListeners(data.d);
+                    }
+                };
+
+                this.socket.onclose = () => {
+                    clearInterval(this.heartbeat);
+                    setTimeout(() => this.setupWebSocket(), 5000);
+                };
+            }
+
+            sendInitialData() {
+                const dataInitial = {
+                    op: 2,
+                    d: {
+                        subscribe_to_id: this.discordId
+                    }
+                };
+                this.socket.send(JSON.stringify(dataInitial));
+            }
+
+            setupHeartbeat() {
+                this.heartbeat = setInterval(() => {
+                    this.socket.send(JSON.stringify({
+                        op: 3
+                    }));
+                }, 30000);
+            }
+
+            addListener(callback) {
+                this.listeners.push(callback);
+            }
+
+            notifyListeners(data) {
+                this.listeners.forEach(callback => callback(data));
+            }
+        }
+
+        const lanyardService = new LanyardService('874898422233178142');
+        lanyardService.setupWebSocket();
+
+        lanyardService.addListener((data) => {
+            console.log('Received data:', data);
+            handleLanyardData(data);
+        });
+        
+    function handleLanyardData(data) {
+    if (!data) return;
+
+    const {
+        discord_user,
+        discord_status,
+        activities
+    } = data;
+
+    const username = discord_user.username;
+    const status = discord_status || 'offline';
+
+    const statusTextMap = {
+        'online': 'Online',
+        'idle': 'Idle',
+        'dnd': 'in DND mode',
+        'offline': 'Offline'
+    };
+
+    const statusColorMap = {
+        'online': '#a6d189',
+        'idle': '#e5c890',
+        'dnd': '#e78284',
+        'offline': '#7b7f94'
+    };
+
+    const statusIcon = status === 'offline' ? 'fas fa-circle' : 'fas fa-circle';
+
+    const statusText = statusTextMap[status];
+    const statusColor = statusColorMap[status];
+
+    document.getElementById('user-status').innerHTML = `<span class="blurple"><i class="fab fa-discord"></i></span> <span class="blurple">@${username}</span> at Discord`;
+    document.getElementById('user-status2').innerHTML = `<span class="${status}" style="color: ${statusColor}"><i class="${statusIcon}"></i></span> Currently <span class="${status}" style="color: ${statusColor}">${statusText}</span>`;
+
+    const gameActivities = activities.filter(activity => 
+    (activity.type === 1 || activity.type === 2 || activity.type === 0) && 
+    activity.name.toLowerCase().indexOf('youtube') === -1
+    );
+    const gameStatusElement = document.getElementById('game-status');
+
+    if (gameActivities.length > 0) {
+        let gamesListHTML = '<ul>';
+        gameActivities.forEach(game => {
+            const activityType = game.type === 1 ? 'Playing' : (game.type === 0 ? 'Playing' : 'Listening');
+            const duration = game.timestamps && game.timestamps.start ? calculateDuration(game.timestamps.start) : '';
+            gamesListHTML += `<li><i class='fas fa-gamepad' style='color: #cba6f7;'></i> ${activityType}: <span class='highlight'>${game.name}</span>${game.details ? ` - ${game.details}` : ''}${game.state ? ` (${game.state})` : ''} ${duration}</li>`;
+        });
+        gamesListHTML += '</ul>';
+        gameStatusElement.innerHTML = gamesListHTML;
+    } else {
+        gameStatusElement.innerHTML = `<i class='fas fa-gamepad' style='color: #626880;'></i> Not playing or listening to anything right now.`;
+    }
+}
+
+function calculateDuration(startTime) {
+    const now = new Date();
+    const start = new Date(startTime);
+    const diff = now - start;
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    return `${hours}h ${minutes}m`;
+}
+
+        setTimeout(function () {
+            document.title = "| By 4levy";
+            document.querySelector('.loading-screen').style.display = 'none';
+        }, 3000);
+
+        setTimeout(function () {
+            document.getElementById('overlay').classList.add('hidden');
+
+            document.body.style.overflow = 'auto';
+        }, 3000);
+
+        var aText = new Array(
+            "I'm levy, A 16 years old from Thailand,",
+            "I like playing video games, sometimes even coding."
+        );
+        var iSpeed = 100;
+        var iIndex = 0;
+        var iArrLength = aText[0].length; // the length of the text array
+        var iScrollAt = 20; // start scrolling up at this many lines
+
+        var iTextPos = 0; // initialise text position
+        var sContents = ''; // initialise contents variable
+        var iRow; // initialise current row
+
+        function typewriter() {
+            sContents = ' ';
+            iRow = Math.max(0, iIndex - iScrollAt);
+            var destination = document.getElementById("typedtext");
+
+            while (iRow < iIndex) {
+                sContents += aText[iRow++] + '<br />';
+            }
+            destination.innerHTML = sContents + aText[iIndex].substring(0, iTextPos) + "_";
+            if (iTextPos++ == iArrLength) {
+                iTextPos = 0;
+                iIndex++;
+                if (iIndex != aText.length) {
+                    iArrLength = aText[iIndex].length;
+                    setTimeout("typewriter()", 500);
+                }
+            } else {
+                setTimeout("typewriter()", iSpeed);
+            }
+        }
+
+
+        typewriter();
+    </script>
+</body>
+
+</html>
