@@ -6,8 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://unpkg.com/kursor/dist/kursor.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>| 4levy &gt;.&lt;</title>
-    <link rel="icon" type="image/x-icon" href="">
+    <link rel="icon" type="image/x-icon" href="https://i.ibb.co/MgjH9GY/8da0947acaa26bfcc1b7b919077cb85f.png">
     <style>
         @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 
@@ -35,10 +36,12 @@
             top: 0;
             z-index: 1000;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
         }
 
         .navbar h1 {
             color: #ef9f76;
+            font-size: 1.5rem;
         }
 
         .navbar ul {
@@ -66,6 +69,7 @@
             align-items: center;
             justify-content: center;
             z-index: 2000;
+            transition: opacity 0.5s;
         }
 
         .loading-screen .spinner {
@@ -95,7 +99,6 @@
             text-align: center;
             height: 100vh;
             padding-top: 60px;
-            /* For navbar space */
         }
 
         .container p {
@@ -155,7 +158,6 @@
             position: absolute;
             z-index: 1;
             bottom: 125%;
-            /* Position above the element */
             left: 50%;
             margin-left: -60px;
             opacity: 0;
@@ -200,7 +202,7 @@
     <nav class="navbar">
         <h1>4levy &gt;.&lt;</h1>
         <ul>
-            <li><a href="#">Home</a></li>
+            <li><a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
             <li><a href="#about">About</a></li>
         </ul>
     </nav>
@@ -234,11 +236,13 @@
 
     <script src="https://cdn.jsdelivr.net/npm/kursor"> </script>
     <script src="https://cdn.jsdelivr.net/npm/kursor@0.0.14/dist/kursor.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const loadingScreen = document.getElementById('loading-screen');
             setTimeout(() => {
-                loadingScreen.style.display = 'none';
+                loadingScreen.style.opacity = '0';
+                setTimeout(() => loadingScreen.style.display = 'none', 500);
             }, 2000);
 
             function updateTime() {
