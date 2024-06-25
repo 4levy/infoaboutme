@@ -191,6 +191,11 @@
         .about-content p {
             margin-bottom: 1rem;
         }
+
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #555 #2c2c2c;
+        }
     </style>
 </head>
 
@@ -381,15 +386,7 @@
                 const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
                 return `${hours}h ${minutes}m`;
             }
-
-            function handleSubmit(event) {
-                event.preventDefault();
-                const name = document.getElementById('name').value;
-                const email = document.getElementById('email').value;
-                const message = document.getElementById('message').value;
-                alert(`Thank you, ${name}! Your message has been sent.`);
-            }
-
+            
             new kursor({
                 type: 4,
                 color: '#ef9f76'
