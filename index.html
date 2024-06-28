@@ -1,548 +1,669 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="https://unpkg.com/kursor/dist/kursor.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
-    />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
-    />
-    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
-    <title>| 4levy &gt;.&lt;</title>
-    <link
-      rel="icon"
-      type="image/x-icon"
-      href="https://i.ibb.co/MgjH9GY/8da0947acaa26bfcc1b7b919077cb85f.png"
-    />
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://unpkg.com/kursor/dist/kursor.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <title>| 4levy &gt;.&lt;</title>
+  <link rel="icon" type="image/x-icon" href="https://i.ibb.co/MgjH9GY/8da0947acaa26bfcc1b7b919077cb85f.png" />
+  <style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap");
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Anonymous Pro", monospace;
+      background-color: rgba(30, 30, 46, 0.8);
+      color: #faf3fa;
+      overflow-x: hidden;
+    }
+
+    .loading-screen {
+      background-color: rgba(30, 30, 46, 0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      z-index: 2000;
+      transition: opacity 0.5s, visibility 0.5s;
+    }
+
+    .loading-screen .spinner {
+      border: 8px solid #f3f3f3;
+      border-top: 8px solid #ef9f76;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
       }
 
-      body {
-        font-family: "Anonymous Pro", monospace;
-        background-color: rgba(30, 30, 46, 0.8); 
-        color: #faf3fa;
-        overflow-x: hidden;
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #2a2a3b;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s;
+    }
+
+    .navbar h1 {
+      color: rgba(189, 255, 255, 0.829);
+      font-size: 1.5rem;
+    }
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      gap: 1rem;
+    }
+
+    .navbar ul li a {
+      color: #faf3fa;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .navbar ul li a:hover {
+      color: #f4b8e4;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      height: 100vh;
+      padding-top: 60px;
+    }
+
+    .container p {
+      margin: 0.5em 0;
+    }
+
+    .container a {
+      color: rgba(216, 255, 255, 0.671);;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .container a:hover {
+      color: #f4b8e4;
+    }
+
+    .footer {
+      background-color: #2a2a3b;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #ffffff;
+      position: fixed;
+      width: 100%;
+      bottom: 0;
+      z-index: 1000;
+    }
+
+    .footer h6 {
+      margin: 0;
+    }
+
+    .footer .social-icons a {
+      color: #ffffff;
+      margin-left: 1rem;
+      transition: color 0.3s;
+    }
+
+    .footer .social-icons a:hover {
+      color: #f4b8e4;
+    }
+
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip .tooltiptext {
+      visibility: hidden;
+      width: 120px;
+      background-color: #555;
+      color: #fff;
+      text-align: center;
+      border-radius: 6px;
+      padding: 5px;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      margin-left: -60px;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .tooltip:hover .tooltiptext {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .about-section {
+      background-color: #2a2a3b;
+      color: #faf3fa;
+      padding: 3rem 2rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    .about-section h2 {
+      margin-bottom: 1rem;
+      font-size: 2.5rem;
+      position: relative;
+      display: inline-block;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .about-section h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      width: 50px;
+      height: 3px;
+      background-color: rgba(216, 255, 255, 0.671);
+      transform: translateX(-50%);
+    }
+
+    .about-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: left;
+      line-height: 1.6;
+      background: rgba(255, 255, 255, 0.1);
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      animation: fadeIn 2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
       }
 
-      .loading-screen {
-        background-color: rgba(30, 30, 46, 0.9);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        z-index: 2000;
-        transition: opacity 0.5s, visibility 0.5s;
+      to {
+        opacity: 1;
       }
+    }
 
-      .loading-screen .spinner {
-        border: 8px solid #f3f3f3;
-        border-top: 8px solid #ef9f76;
-        border-radius: 50%;
-        width: 60px;
-        height: 60px;
-        animation: spin 1s linear infinite;
-      }
+    #progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 0%;
+      height: 5px;
+      background-color: rgba(216, 255, 255, 0.671);
+      z-index: 1001;
+    }
 
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
+    #bg-video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      min-width: 100%;
+      min-height: 100%;
+      width: auto;
+      height: auto;
+      z-index: -1;
+      background-size: cover;
+      opacity: 0.5;
+    }
 
-      .navbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 1rem 2rem;
-        background-color: #2a2a3b;
-        position: fixed;
-        width: 100%;
-        top: 0;
-        z-index: 1000;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-        transition: background-color 0.3s;
-      }
+    .about-content p {
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      font-family: 'Arial', sans-serif;
+    }
 
-      .navbar h1 {
-        color: #ef9f76;
-        font-size: 1.5rem;
+    .about-content img {
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      float: left;
+      margin-right: 1rem;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+    }
+
+    .profile,
+    .learning {
+      width: 45%;
+    }
+
+    .profile h3,
+    .learning h3 {
+      color: #ffffff;
+      font-size: 24px;
+      margin-bottom: 10px;
+      border-bottom: 3px solid #ff0080;
+      display: inline-block;
+      padding-bottom: 5px;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .profile ul,
+    .learning ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .profile li,
+    .learning li {
+      margin-bottom: 10px;
+      color: #ffffff;
+      font-size: 18px;
+      font-family: 'Arial', sans-serif;
+    }
+
+    .profile strong {
+      font-weight: bold;
+    }
+
+    .progress {
+      background-color: #3e3e4a;
+      border-radius: 20px;
+      overflow: hidden;
+      height: 20px;
+      margin-top: 5px;
+    }
+
+    .progress-bar {
+      background-color: rgba(216, 255, 255, 0.671);
+      height: 100%;
+      line-height: 20px;
+      color: #2a2a3b;
+      text-align: center;
+      font-family: 'Arial', sans-serif;
+    }
+
+    @media only screen and (max-width: 768px) {
+      #bg-video {
+        object-fit: cover;
       }
 
       .navbar ul {
-        list-style: none;
-        display: flex;
-        gap: 1rem;
-      }
-
-      .navbar ul li a {
-        color: #faf3fa;
-        text-decoration: none;
-        transition: color 0.3s;
-      }
-
-      .navbar ul li a:hover {
-        color: #f4b8e4;
-      }
-
-      .navbar ul li .dropdown {
         display: none;
-        position: absolute;
-        background-color: #2a2a3b;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        z-index: 1000;
-        padding: 0.5rem 1rem;
-      }
-
-      .navbar ul li:hover .dropdown {
-        display: block;
-      }
-
-      .container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        text-align: center;
-        height: 100vh;
-        padding-top: 60px;
-      }
-
-      .container p {
-        margin: 0.5em 0;
-      }
-
-      .container a {
-        color: #ef9f76;
-        text-decoration: none;
-        transition: color 0.3s;
-      }
-
-      .container a:hover {
-        color: #f4b8e4;
-      }
-
-      .footer {
-        background-color: #2a2a3b;
-        padding: 1rem 2rem;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        color: #ffffff;
-        position: fixed;
-        width: 100%;
-        bottom: 0;
-        z-index: 1000;
-      }
-
-      .footer h6 {
-        margin: 0;
-      }
-
-      .footer .social-icons a {
-        color: #ffffff;
-        margin-left: 1rem;
-        transition: color 0.3s;
-      }
-
-      .footer .social-icons a:hover {
-        color: #f4b8e4;
-      }
-
-      .tooltip {
-        position: relative;
-        display: inline-block;
-      }
-
-      .tooltip .tooltiptext {
-        visibility: hidden;
-        width: 120px;
-        background-color: #555;
-        color: #fff;
-        text-align: center;
-        border-radius: 6px;
-        padding: 5px;
-        position: absolute;
-        z-index: 1;
-        bottom: 125%;
-        left: 50%;
-        margin-left: -60px;
-        opacity: 0;
-        transition: opacity 0.3s;
-      }
-
-      .tooltip:hover .tooltiptext {
-        visibility: visible;
-        opacity: 1;
-      }
-
-      .about-section {
-        background-color: #2a2a3b;
-        color: #faf3fa;
-        padding: 3rem 2rem;
-        text-align: center;
-        margin-top: 2rem;
-      }
-
-      .about-section h2 {
-        margin-bottom: 1rem;
       }
 
       .about-content {
-        max-width: 800px;
-        margin: 0 auto;
-        text-align: left;
-        line-height: 1.6;
+        padding: 1rem;
       }
 
-      .about-content p {
-        margin-bottom: 1rem;
+      .stats {
+        flex-direction: column;
       }
 
-      * {
+      .profile,
+      .learning {
+        width: 100%;
+        margin-bottom: 20px;
+      }
+    }
+
+    * {
         scrollbar-width: thin;
         scrollbar-color: #555 #2c2c2c;
       }
+  </style>
+</head>
 
-      #progress-bar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 0%;
-        height: 5px;
-        background-color: #ef9f76;
-        z-index: 1001;
-      }
+<body>
+  <div class="loading-screen" id="loading-screen">
+    <div class="spinner"></div>
+  </div>
 
-      #bg-video {
-        position: fixed;
-        top: 0;
-        left: 0;
-        min-width: 100%;
-        min-height: 100%;
-        width: auto;
-        height: auto;
-        z-index: -1;
-        background-size: cover;
-        opacity: 0.5;
-      }
+  <video autoplay muted loop id="bg-video">
+    <source src="https://yaaybxarhlwcro.netlify.app/bg/background.mp4" type="video/mp4" />
+    Your browser does not support HTML5 video.
+  </video>
 
-      @media only screen and (max-width: 768px) {
-        #bg-video {
-          object-fit: cover;
-        }
-        .navbar ul {
-          flex-direction: column;
-          gap: 0;
-        }
-        .navbar ul li .dropdown {
-          position: relative;
-          display: block;
-        }
-      }
-      
-      img {
-      width: 250px; 
-      height: auto;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    }
-    p {
-      margin: 5px 0;
-    }
+  <audio id="backgroundMusic" autoplay loop>
+    <source src="https://yaaybxarhlwcro.netlify.app/bg/song.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
 
-    </style>
-  </head>
-  <body>
-    <div class="loading-screen" id="loading-screen">
-      <div class="spinner"></div>
-    </div>
+  <nav class="navbar">
+    <h1>&lt;/4levy&gt;</h1>
+    <ul>
+      <li>
+        <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
+      </li>
+      <li><a href="#about">About</a></li>
+      <li>
+        </div>
+      </li>
+    </ul>
+  </nav>
 
-    <video autoplay muted loop id="bg-video">
-      <source src="https://yaaybxarhlwcro.netlify.app/bg/background.mp4" type="video/mp4" />
-      Your browser does not support HTML5 video.
-    </video>
+  <div class="container" id="content">
+    <p id="timeDisplay"></p>
+    <p id="birthday"></p>
+    <p id="user-status"></p>
+    <p id="user-status2"></p>
+    <p id="game-status"></p>
+    <p>
+      My
+      <a href="https://github.com/4levy" class="tooltip">GitHub<span class="tooltiptext">Visit my GitHub
+          profile</span></a>
+      na krubb.
+    </p>
+    <br />
+    <img src="https://count.getloli.com/get/@4levy?theme=rule34" alt="Image cannot be loaded, Please try again later" />
+  </div>
 
-    <nav class="navbar">
-      <h1>4levy &gt;.&lt;</h1>
-      <ul> 
-        <li>
-          <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
-        </li>
-        <li><a href="#about">About</a></li>
-        <li>
-          </div>
-        </li>
-      </ul>
-    </nav>
-
-    <div class="container" id="content">
-      <p id="timeDisplay"></p>
-      <p id="birthday"></p>
-      <p id="user-status"></p>
-      <p id="user-status2"></p>
-      <p id="game-status"></p>
-      <p>
-        My
-        <a href="https://github.com/4levy" class="tooltip"
-          >GitHub<span class="tooltiptext">Visit my GitHub profile</span></a
-        >
-        na krubb.
-      </p>
-      <br />
-      <img
-        src="https://count.getloli.com/get/@4levy?theme=rule34"
-        alt="Image cannot be loaded, Please try again later"
-      />
-    </div>
-
-    <div class="about-section" id="about" data-aos="fade-up">
-      <h2>About Me</h2>
-      <div class="about-content">
-          <img src="https://i.ibb.co/Mf2wmp3/c6bf841e3c00072e01d6872e3e0dd142.gif">
-          Python & Nodejs discord developer...
-        </p>
+  <div id="about" class="about-section">
+    <h2>About Me</h2>
+    <div class="about-content" data-aos="fade-up" data-aos-delay="200">
+      <img src="https://i.ibb.co/Mf2wmp3/c6bf841e3c00072e01d6872e3e0dd142.gif" alt="Profile Picture">
+      <p>Hello! I'm VIVI, also known as 4levy. I am an experienced developer specializing in Python and Node.js.</p>
+      <div class="stats">
+        <div class="profile">
+          <h3>Profile</h3>
+          <ul>
+            <li><strong>Name:</strong> VIVI</li>
+            <li><strong>Role:</strong> None</li>
+            <li><strong>Experience:</strong> Secret</li>
+            <li><strong>Location:</strong> Anywhere on Earth</li>
+          </ul>
+          <ul>
+            <h3>Credit</h3>
+            <li><strong>Backgorund:</strong>  Tranquility</li>
+            <li><strong>MusicBackground:</strong> Tranquility</li>
+            <li><strong>Anime:</strong> A Weathering With You</li>
+          </ul>
+        </div>
+        <div class="learning">
+          <h3>Currently Learning</h3>
+          <ul>
+            <li>HTML
+              <div class="progress">
+                <div class="progress-bar" style="width: 40%">40%</div>
+              </div>
+            </li>
+            <li>CSS
+              <div class="progress">
+                <div class="progress-bar" style="width: 70%">70%</div>
+              </div>
+            </li>
+            <li>Node.js
+              <div class="progress">
+                <div class="progress-bar" style="width: 50%">50%</div>
+              </div>
+            </li>
+            <li>Python
+              <div class="progress">
+                <div class="progress-bar" style="width: 30%">30%</div>
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
+  </div>
 
-    <div class="footer">
-      <h6>&copy; 2024 4levy &gt;.&lt;</h6>
-      <div class="social-icons">
-        <a href="https://x.com/4levyz"><i class="fab fa-twitter"></i></a>
-        <a href="https://www.instagram.com/4levyz"><i class="fab fa-instagram"></i></a>
-        <a href="https://www.facebook.com/4levy"><i class="fab fa-facebook"></i></a>
-        <a href="https://github.com/4levy"><i class="fab fa-github"></i></a>
-      </div>
+  <div class="footer">
+    <h6>&copy; 2024 4levy &gt;.&lt;</h6>
+    <div class="social-icons">
+      <a href="https://x.com/4levyz"><i class="fab fa-twitter"></i></a>
+      <a href="https://www.instagram.com/4levyz"><i class="fab fa-instagram"></i></a>
+      <a href="https://www.facebook.com/4levy"><i class="fab fa-facebook"></i></a>
+      <a href="https://github.com/4levy"><i class="fab fa-github"></i></a>
     </div>
+  </div>
 
-    <div id="progress-bar"></div>
+  <div id="progress-bar"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/kursor"></script>
-    <script src="https://cdn.jsdelivr.net/npm/kursor@0.0.14/dist/kursor.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
-    <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        AOS.init({
-          duration: 1200,
-        });
+  <script src="https://cdn.jsdelivr.net/npm/kursor"></script>
+  <script src="https://cdn.jsdelivr.net/npm/kursor@0.0.14/dist/kursor.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      AOS.init({
+        duration: 1200,
+      });
 
-        const loadingScreen = document.getElementById("loading-screen");
-        setTimeout(() => {
-          loadingScreen.style.opacity = "0";
-          loadingScreen.style.visibility = "hidden";
-        }, 2000);
+      const loadingScreen = document.getElementById("loading-screen");
+      setTimeout(() => {
+        loadingScreen.style.opacity = "0";
+        loadingScreen.style.visibility = "hidden";
+      }, 2000);
 
-        function updateTime() {
-          const offset = 7;
-          const time = new Date(new Date().getTime() + offset * 3600 * 1000)
-            .toUTCString()
-            .replace(/GMT$/, "");
-          const timeArray = time.split(" ");
-          const timeString = timeArray[4];
-          document.getElementById(
-            "timeDisplay"
-          ).innerHTML = `<i class='far fa-clock' style='color: #ef9f76'></i> My local time is <span class='pastel'>${timeString}</span> (Thailand, Pattaya)`;
+      function updateTime() {
+        const offset = 7;
+        const time = new Date(new Date().getTime() + offset * 3600 * 1000)
+          .toUTCString()
+          .replace(/GMT$/, "");
+        const timeArray = time.split(" ");
+        const timeString = timeArray[4];
+        document.getElementById(
+          "timeDisplay"
+        ).innerHTML = `<i class='far fa-clock' style='color: #ef9f76'></i> My local time is <span class='pastel'>${timeString}</span> (Thailand, Pattaya)`;
+      }
+      setInterval(updateTime, 1000);
+
+      const countDownDate = new Date("07/04/2025").getTime();
+      setInterval(function () {
+        const now = new Date().getTime();
+        const distance = countDownDate - now;
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor(
+          (distance % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        const countdownString = `<span class="countdown" style="color: #f4b8e4"><i class="fas fa-birthday-cake"></i> ${days}d ${hours}h ${minutes}m ${seconds}s</span> until my birthday`;
+        document.getElementById("birthday").innerHTML = countdownString;
+        if (distance < 0) {
+          clearInterval(x);
+          document.getElementById("birthday").innerHTML =
+            "It's my birthday! 🎉";
         }
-        setInterval(updateTime, 1000);
+      }, 1000);
 
-        const countDownDate = new Date("07/04/2025").getTime();
-        setInterval(function () {
-          const now = new Date().getTime();
-          const distance = countDownDate - now;
-          const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-          const hours = Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-          );
-          const minutes = Math.floor(
-            (distance % (1000 * 60 * 60)) / (1000 * 60)
-          );
-          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-          const countdownString = `<span class="countdown" style="color: #f4b8e4"><i class="fas fa-birthday-cake"></i> ${days}d ${hours}h ${minutes}m ${seconds}s</span> until my birthday`;
-          document.getElementById("birthday").innerHTML = countdownString;
-          if (distance < 0) {
-            clearInterval(x);
-            document.getElementById("birthday").innerHTML =
-              "It's my birthday! 🎉";
-          }
-        }, 1000);
-
-        class LanyardService {
-          constructor(discordId) {
-            this.webSocketUrl = "wss://api.lanyard.rest/socket";
-            this.discordId = discordId;
-            this.socket = null;
-            this.listeners = [];
-          }
-
-          setupWebSocket() {
-            this.socket = new WebSocket(this.webSocketUrl);
-            this.socket.onopen = () => {
-              this.sendInitialData();
-              this.setupHeartbeat();
-            };
-            this.socket.onmessage = (event) => {
-              const data = JSON.parse(event.data);
-              if (data.t === "INIT_STATE" || data.t === "PRESENCE_UPDATE") {
-                this.notifyListeners(data.d);
-              }
-            };
-            this.socket.onclose = () => {
-              clearInterval(this.heartbeat);
-              setTimeout(() => this.setupWebSocket(), 5000);
-            };
-          }
-
-          sendInitialData() {
-            const dataInitial = {
-              op: 2,
-              d: {
-                subscribe_to_id: this.discordId,
-              },
-            };
-            this.socket.send(JSON.stringify(dataInitial));
-          }
-
-          setupHeartbeat() {
-            this.heartbeat = setInterval(() => {
-              this.socket.send(JSON.stringify({ op: 3 }));
-            }, 30000);
-          }
-
-          addListener(callback) {
-            this.listeners.push(callback);
-          }
-
-          notifyListeners(data) {
-            this.listeners.forEach((callback) => callback(data));
-          }
+      class LanyardService {
+        constructor(discordId) {
+          this.webSocketUrl = "wss://api.lanyard.rest/socket";
+          this.discordId = discordId;
+          this.socket = null;
+          this.listeners = [];
         }
 
-        const lanyardService = new LanyardService("874898422233178142");
-        lanyardService.setupWebSocket();
-        lanyardService.addListener((data) => {
-          handleLanyardData(data);
-        });
-
-        function handleLanyardData(data) {
-          if (!data) return;
-          const { discord_user, discord_status, activities } = data;
-          const username = discord_user.username;
-          const status = discord_status || "offline";
-
-          const statusTextMap = {
-            online: "Online",
-            idle: "Idle",
-            dnd: "in DND mode",
-            offline: "Offline",
+        setupWebSocket() {
+          this.socket = new WebSocket(this.webSocketUrl);
+          this.socket.onopen = () => {
+            this.sendInitialData();
+            this.setupHeartbeat();
           };
-          const statusColorMap = {
-            online: "#a6d189",
-            idle: "#e5c890",
-            dnd: "#e78284",
-            offline: "#7b7f94",
+          this.socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            if (data.t === "INIT_STATE" || data.t === "PRESENCE_UPDATE") {
+              this.notifyListeners(data.d);
+            }
           };
+          this.socket.onclose = () => {
+            clearInterval(this.heartbeat);
+            setTimeout(() => this.setupWebSocket(), 5000);
+          };
+        }
 
-          const statusIcon =
-            status === "offline" ? "fas fa-circle" : "fas fa-circle";
-          const statusText = statusTextMap[status];
-          const statusColor = statusColorMap[status];
+        sendInitialData() {
+          const dataInitial = {
+            op: 2,
+            d: {
+              subscribe_to_id: this.discordId,
+            },
+          };
+          this.socket.send(JSON.stringify(dataInitial));
+        }
 
-          document.getElementById(
-            "user-status"
-          ).innerHTML = `<span class="blurple"><i class="fab fa-discord"></i></span> <span class="blurple">@${username}</span> at Discord`;
-          document.getElementById(
-            "user-status2"
-          ).innerHTML = `<span class="${status}" style="color: ${statusColor}"><i class="${statusIcon}"></i></span> Currently <span class="${status}" style="color: ${statusColor}">${statusText}</span>`;
+        setupHeartbeat() {
+          this.heartbeat = setInterval(() => {
+            this.socket.send(JSON.stringify({ op: 3 }));
+          }, 30000);
+        }
 
-          const gameActivities = activities.filter(
-            (activity) =>
-              (activity.type === 1 ||
-                activity.type === 2 ||
-                activity.type === 0) &&
-              activity.name.toLowerCase().indexOf("youtube") === -1
-          );
-          const gameStatusElement = document.getElementById("game-status");
+        addListener(callback) {
+          this.listeners.push(callback);
+        }
 
-          if (gameActivities.length > 0) {
-            let gamesListHTML = "<ul>";
-            gameActivities.forEach((game) => {
-              const activityType =
-                game.type === 1
-                  ? "Playing"
-                  : game.type === 0
+        notifyListeners(data) {
+          this.listeners.forEach((callback) => callback(data));
+        }
+      }
+
+      const lanyardService = new LanyardService("874898422233178142");
+      lanyardService.setupWebSocket();
+      lanyardService.addListener((data) => {
+        handleLanyardData(data);
+      });
+
+      function handleLanyardData(data) {
+        if (!data) return;
+        const { discord_user, discord_status, activities } = data;
+        const username = discord_user.username;
+        const status = discord_status || "offline";
+
+        const statusTextMap = {
+          online: "Online",
+          idle: "Idle",
+          dnd: "in DND mode",
+          offline: "Offline",
+        };
+        const statusColorMap = {
+          online: "#a6d189",
+          idle: "#e5c890",
+          dnd: "#e78284",
+          offline: "#7b7f94",
+        };
+
+        const statusIcon =
+          status === "offline" ? "fas fa-circle" : "fas fa-circle";
+        const statusText = statusTextMap[status];
+        const statusColor = statusColorMap[status];
+
+        document.getElementById(
+          "user-status"
+        ).innerHTML = `<span class="blurple"><i class="fab fa-discord"></i></span> <span class="blurple">@${username}</span> at Discord`;
+        document.getElementById(
+          "user-status2"
+        ).innerHTML = `<span class="${status}" style="color: ${statusColor}"><i class="${statusIcon}"></i></span> Currently <span class="${status}" style="color: ${statusColor}">${statusText}</span>`;
+
+        const gameActivities = activities.filter(
+          (activity) =>
+            (activity.type === 1 ||
+              activity.type === 2 ||
+              activity.type === 0) &&
+            activity.name.toLowerCase().indexOf("youtube") === -1
+        );
+        const gameStatusElement = document.getElementById("game-status");
+
+        if (gameActivities.length > 0) {
+          let gamesListHTML = "<ul>";
+          gameActivities.forEach((game) => {
+            const activityType =
+              game.type === 1
+                ? "Playing"
+                : game.type === 0
                   ? "Playing"
                   : "Listening";
-              const duration =
-                game.timestamps && game.timestamps.start
-                  ? calculateDuration(game.timestamps.start)
-                  : "";
-              gamesListHTML += `<li><i class='fas fa-gamepad' style='color: #cba6f7;'></i> ${activityType}: <span class='highlight'>${
-                game.name
-              }</span>${game.details ? ` - ${game.details}` : ""}${
-                game.state ? ` (${game.state})` : ""
+            const duration =
+              game.timestamps && game.timestamps.start
+                ? calculateDuration(game.timestamps.start)
+                : "";
+            gamesListHTML += `<li><i class='fas fa-gamepad' style='color: #cba6f7;'></i> ${activityType}: <span class='highlight'>${game.name
+              }</span>${game.details ? ` - ${game.details}` : ""}${game.state ? ` (${game.state})` : ""
               } ${duration}</li>`;
-            });
-            gamesListHTML += "</ul>";
-            gameStatusElement.innerHTML = gamesListHTML;
-          } else {
-            gameStatusElement.innerHTML = `<i class='fas fa-gamepad' style='color: #626880;'></i> Not playing or listening to anything right now.`;
-          }
+          });
+          gamesListHTML += "</ul>";
+          gameStatusElement.innerHTML = gamesListHTML;
+        } else {
+          gameStatusElement.innerHTML = `<i class='fas fa-gamepad' style='color: #626880;'></i> Not playing or listening to anything right now.`;
         }
+      }
 
-        function calculateDuration(startTime) {
-          const now = new Date();
-          const start = new Date(startTime);
-          const diff = now - start;
-          const hours = Math.floor(diff / (1000 * 60 * 60));
-          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-          return `${hours}h ${minutes}m`;
-        }
+      function calculateDuration(startTime) {
+        const now = new Date();
+        const start = new Date(startTime);
+        const diff = now - start;
+        const hours = Math.floor(diff / (1000 * 60 * 60));
+        const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+        return `${hours}h ${minutes}m`;
+      }
 
-        new kursor({
-          type: 4,
-          color: "#ef9f76",
-        });
-        
-        window.onload = function() {
-            var audio = document.getElementById('backgroundMusic');
-            audio.volume = 0.1;
-        };
+      new kursor({
+        type: 4,
+        color: "#ef9f76",
+      });
 
-        window.onscroll = function () {
-          const winScroll =
-            document.body.scrollTop || document.documentElement.scrollTop;
-          const height =
-            document.documentElement.scrollHeight -
-            document.documentElement.clientHeight;
-          const scrolled = (winScroll / height) * 100;
-          document.getElementById("progress-bar").style.width = scrolled + "%";
-        };
+      window.onscroll = function () {
+        const winScroll =
+          document.body.scrollTop || document.documentElement.scrollTop;
+        const height =
+          document.documentElement.scrollHeight -
+          document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById("progress-bar").style.width = scrolled + "%";
+      };
 
-        document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-          anchor.addEventListener("click", function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute("href")).scrollIntoView({
-              behavior: "smooth",
-            });
+      window.addEventListener('scroll', () => {
+        const progressBar = document.getElementById('progress-bar');
+        const totalHeight = document.body.scrollHeight - window.innerHeight;
+        const progress = (window.scrollY / totalHeight) * 100;
+        progressBar.style.width = `${progress}%`;
+      });
+
+
+      document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+        anchor.addEventListener("click", function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute("href")).scrollIntoView({
+            behavior: "smooth",
           });
         });
       });
-    </script>
-  </body>
+    });
+  </script>
+</body>
+
 </html>
