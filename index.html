@@ -166,7 +166,7 @@
       opacity: 0;
       transition: opacity 0.3s;
     }
-    
+
     .tooltip:hover .tooltiptext {
       visibility: visible;
       opacity: 1;
@@ -626,13 +626,29 @@
         progressBar.style.width = `${progress}%`;
       });
 
-
       document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
         anchor.addEventListener("click", function (e) {
           e.preventDefault();
           document.querySelector(this.getAttribute("href")).scrollIntoView({
             behavior: "smooth",
           });
+        });
+      });
+
+      window.addEventListener('scroll', function() {
+        var sections = document.querySelectorAll("section");
+        var navLinks = document.querySelectorAll("nav ul li a");
+        sections.forEach(section => {
+          var top = window.scrollY;
+          var offset = section.offsetTop - 150;
+          var height = section.offsetHeight;
+          var id = section.getAttribute("id");
+          if (top >= offset && top < offset + height) {
+            navLinks.forEach(link => {
+              link.classList.remove("active");
+              document.querySelector("nav ul li a[href*=" + id + "]").classList.add("active");
+            });
+          }
         });
       });
     });
